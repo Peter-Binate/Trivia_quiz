@@ -1,20 +1,59 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+// on importe les composant pour la Navigation
+import { NavigationContainer } from '@react-navigation/native'
+
+/// on importe le composant pour la bottom-navigation
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
+
+// on importe les composants
+import Home from './components/Home.js'
+import QuizForm from './components/QuizForm.js'
+import Quiz from './components/Quiz.js'
+import style from './style.js'
+
+const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator()
+
+function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={style.container}>
+      <Home navigation={navigation} />
     </View>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        // On choisit la color et le type d'icon lorsque l'icon est active
+        screenOptions={({ route }) => ({
+          tabBarIcon:({focused, color, size}) => {
+            let iconName = "skull"
+
+            if(route.name === 'Home')
+              iconName = 'home'
+            else if(route.name === 'QuizForm')
+              iconName = 'settings'
+
+              return <Ionicons name={iconName} size={24} color={color} />
+          },
+          tabBarActiveTintColor: '#ba0d7b',
+          tabBarInactiveTintColor: '#333333'
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="QuizForm" component={QuizForm} />
+        <Tab.Screen name="Quiz" component={Quiz} />
+      </Tab.Navigator>
+      {/* <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="QuizForm" component={QuizForm} />
+      </Stack.Navigator> */}
+    </NavigationContainer>
+  );
+}
