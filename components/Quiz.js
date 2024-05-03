@@ -58,9 +58,11 @@ export default function Quiz({ route }) {
     const questionNumber =  totalQuestionsLoaded + 1
     return (
         <Background>
-            <Text style={styles.question}>Question {questionNumber}:</Text>
-            <Text style={styles.question}>{question.question}</Text>
-
+            <View style={styles.questionBlock}>
+                <Text style={styles.question}>Question {questionNumber}:</Text>
+                <Text style={styles.question}>{question.question}</Text>
+            </View>
+            
             <View style={styles.answerBlock}>
                 {question.incorrect_answers.concat(question.correct_answer).sort().map((answer, index) => (
                     <TouchableOpacity 

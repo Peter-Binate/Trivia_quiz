@@ -10,7 +10,7 @@ export default function Background({
 }) {
     return (
          <LinearGradient 
-            style={styles.home}
+            style={styles.container}
             colors={["#9F7FFF", "#8055FE"]}
             start={{x: 0, y: 1}}
             end={{x: 0.5, y: 1}}

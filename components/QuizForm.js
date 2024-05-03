@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { Picker } from '@react-native-picker/picker';
 import {View, Text, Button, StyleSheet, ActivityIndicator, TouchableOpacity} from 'react-native'
+import Background  from "./Background.js"
 
 import styles from '../styles.js'
-import Background from './Background.js'
 
 export default function QuizForm({ navigation }) {
     const [difficulty, setDifficulty] = useState('')
@@ -52,44 +52,46 @@ export default function QuizForm({ navigation }) {
 
     return(
         <Background style={styles.container}>
-            <Text style={styles.quizFormLabel}>Select Difficulty:</Text>
-            <Picker
-                selectedValue={difficulty}
-                onValueChange={(itemValue) =>
-                    setDifficulty(itemValue)
-                }
-                style={styles.quizFormPicker}
-            >
-                <Picker.Item style={styles.quizFormPicker} label="Any Difficulty" value="any" />
-                <Picker.Item style={styles.quizFormPicker} label="Easy" value="easy" />
-                <Picker.Item style={styles.quizFormPicker} label="Medium" value="medium" />
-                <Picker.Item style={styles.quizFormPicker} label="Hard" value="hard" />
-            </Picker>
+            <View style={styles.componentBlock}>
+                <Text style={styles.quizFormLabel}>Select Difficulty:</Text>
+                <Picker
+                    selectedValue={difficulty}
+                    onValueChange={(itemValue) =>
+                        setDifficulty(itemValue)
+                    }
+                    style={styles.quizFormPicker}
+                >
+                    <Picker.Item style={styles.quizFormPicker} label="Any Difficulty" value="any" />
+                    <Picker.Item style={styles.quizFormPicker} label="Easy" value="easy" />
+                    <Picker.Item style={styles.quizFormPicker} label="Medium" value="medium" />
+                    <Picker.Item style={styles.quizFormPicker} label="Hard" value="hard" />
+                </Picker>
 
-            <Text style={styles.quizFormLabel}>Select Category:</Text>
-            <Picker
-                selectedValue={category}
-                onValueChange={(itemValue) => setCategory(itemValue)}
-                style={styles.quizFormPicker}
-            >
-                <Picker.Item style={styles.quizFormPicker} label="Any Category" value="any" />
-                {categories.map((categorie) => (
-                <Picker.Item style={styles.quizFormPicker} key={categorie.id} label={categorie.name} value={categorie.id.toString()} />
-                ))}
-            </Picker>
-            
-            {/* Bouton pour démarrer le quiz avec les options sélectionnées */}
-            <TouchableOpacity 
-                style={{...styles.Button, backgroundColor: '#FF9051'}}
-                onPress={() => {
-                    // Sélectionne une catégorie et une difficulté aléatoires par défaut
-                    chooseRandomcategoryAndDifficulty();
-                    navigation.navigate('Quiz', { difficulty, category });
-                    console.log(difficulty, category);
-                }}
-            >
-                <Text style={styles.buttonText}>Start Quiz</Text>
-            </TouchableOpacity>
+                <Text style={styles.quizFormLabel}>Select Category:</Text>
+                <Picker
+                    selectedValue={category}
+                    onValueChange={(itemValue) => setCategory(itemValue)}
+                    style={styles.quizFormPicker}
+                >
+                    <Picker.Item style={styles.quizFormPicker} label="Any Category" value="any" />
+                    {categories.map((categorie) => (
+                    <Picker.Item style={styles.quizFormPicker} key={categorie.id} label={categorie.name} value={categorie.id.toString()} />
+                    ))}
+                </Picker>
+                
+                {/* Bouton pour démarrer le quiz avec les options sélectionnées */}
+                <TouchableOpacity 
+                    style={{...styles.Button, backgroundColor: '#FF9051'}}
+                    onPress={() => {
+                        // Sélectionne une catégorie et une difficulté aléatoires par défaut
+                        chooseRandomcategoryAndDifficulty();
+                        navigation.navigate('Quiz', { difficulty, category });
+                        console.log(difficulty, category);
+                    }}
+                >
+                    <Text style={styles.buttonText}>Start Quiz</Text>
+                </TouchableOpacity>
+            </View>
         </Background>
     )
 }

@@ -9,13 +9,15 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-
+  },
+  componentBlock: {
+    paddingTop: 250
   },
   home: {
     flex: 1, 
     justifyContent: 'center',
     backgroundColor: '#FF9051',
-    padding: 20
+    padding: 20,
   },
   logoContainer: {
     width: '100%',
@@ -63,6 +65,9 @@ export default StyleSheet.create({
   quizFormPicker: {
     backgroundColor: '#8055FE',
     color: '#fff',
+  },
+  questionBlock: {
+    marginTop: 100,
   },
     question: {
         fontSize: 25,
