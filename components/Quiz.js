@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { useScore } from '../context/ScoreContext'
 
 export default function Quiz({ route }) {
     const { difficulty, category } = route.params;
 
+    const { incrementCorrectAnswers, incrementTotalQuestions } = useScore()
+
     const [questions, setQuestions] = useState([]);  // Initialisé comme un tableau vide
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-     // State pour suivre le total des questions chargées
-    const [totalQuestionsLoaded, setTotalQuestionsLoaded] = useState(0)
+    const [totalQuestionsLoaded, setTotalQuestionsLoaded] = useState(0) // State pour suivre le total des questions chargées
+    const [selectedAnswer, setSelectedAnswer] = useState(null) // State pour suivre la réponse sélectionnée
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -53,19 +56,43 @@ export default function Quiz({ route }) {
     const questionNumber =  totalQuestionsLoaded + 1
     return (
         <View style={styles.container}>
-             <Text style={styles.questionNumber}>Question {questionNumber}:</Text>
+            <Text style={styles.questionNumber}>Question {questionNumber}:</Text>
             <Text style={styles.question}>{question.question}</Text>
+
             {question.incorrect_answers.concat(question.correct_answer).sort().map((answer, index) => (
-                <TouchableOpacity key={index} style={styles.answerButton} onPress={() => checkAnswer(answer, answer === question.correct_answer)}>
+                <TouchableOpacity 
+                    key={index} 
+                    style={[
+                        styles.answerButton,
+                        selectedAnswer === answer && styles.selectedAnswer // Applique le style sélectionné si la réponse est celle choisie
+                    ]}
+                    onPress={ () => setSelectedAnswer(answer)}
+                >
                     <Text style={styles.answerText}>{answer}</Text>
                 </TouchableOpacity>
             ))}
+            
+            {/* Ajoutez un bouton pour valider la réponse */}
+            <View style={styles.validationButtonContainer}>
+                <TouchableOpacity onPress={() => checkAnswer()} disabled={!selectedAnswer}>
+                    <Text>Validate Answer</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 
-    function checkAnswer(selectedAnswer, isCorrect) {
+    function checkAnswer() {
+        const isCorrect = selectedAnswer === question.correct_answer;
         alert(isCorrect ? 'Correct!' : `Incorrect! You chose: ${selectedAnswer}. The correct answer was: ${question.correct_answer}`);
+        
+        // On incrémente le score si la réponse est correcte
+        incrementCorrectAnswers();
+        // Incrémente le nombre total de questions
+        incrementTotalQuestions(); 
+
+        // On passe à la question suivante
         const nextQuestionIndex = currentQuestionIndex + 1;
+
         // Incrementer le nombre de questions chargées
         setTotalQuestionsLoaded(prev => prev + 1)
 
@@ -75,6 +102,8 @@ export default function Quiz({ route }) {
             fetchQuestion(); // Rechargez de nouvelles questions
             console.log('nouvelle vague de questions')
         }
+        // On réinitialise la réponse sélectionnée pour la question suivante
+        setSelectedAnswer(null);
     }
 }
 
@@ -98,10 +127,23 @@ const styles = StyleSheet.create({
     answerButton: {
         marginVertical: 10,
         backgroundColor: '#dddddd',
-        padding: 10
+        padding: 10,
+        borderRadius: 5, // Bord arrondi par défaut
+        borderWidth: 1, // Bordure pour distinguer le bouton
+        borderColor: 'transparent' // Bordure transparente par défaut
+    },
+    selectedAnswer: {
+        borderColor: 'black', // Bordure noire pour la réponse sélectionnée
+        borderWidth: 2, // Épaisseur de la bordure
+        borderRadius: 10 // Augmenter le bord arrondi
     },
     answerText: {
         fontSize: 18,
         textAlign: 'center'
+    },
+    validationButtonContainer: {
+        marginTop: 20,
+        width: '100%',
+        backgroundColor: '#4CAF50', // Exemple de couleur de fond
     }
 });

@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Home from './components/Home.js'
 import QuizForm from './components/QuizForm.js'
 import Quiz from './components/Quiz.js'
+import { ScoreProvider } from './context/ScoreContext.js'
 import style from './style.js'
 
 const Tab = createBottomTabNavigator()
@@ -38,30 +39,28 @@ function QuizStack () {
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        // On choisit la color et le type d'icon lorsque l'icon est active
-        screenOptions={({ route }) => ({
-          tabBarIcon:({focused, color, size}) => {
-            let iconName = "skull"
+      <ScoreProvider>
+        <Tab.Navigator
+          // On choisit la color et le type d'icon lorsque l'icon est active
+          screenOptions={({ route }) => ({
+            tabBarIcon:({focused, color, size}) => {
+              let iconName = "skull"
 
-            if(route.name === 'Home')
-              iconName = 'home'
-            else if(route.name === 'QuizForm')
-              iconName = 'settings'
+              if(route.name === 'Home')
+                iconName = 'home'
+              else if(route.name === 'QuizForm')
+                iconName = 'settings'
 
-              return <Ionicons name={iconName} size={24} color={color} />
-          },
-          tabBarActiveTintColor: '#ba0d7b',
-          tabBarInactiveTintColor: '#333333'
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="QuizForm" component={QuizStack} />
-      </Tab.Navigator>
-      {/* <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="QuizForm" component={QuizForm} />
-      </Stack.Navigator> */}
+                return <Ionicons name={iconName} size={24} color={color} />
+            },
+            tabBarActiveTintColor: '#ba0d7b',
+            tabBarInactiveTintColor: '#333333'
+          })}
+        >
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="QuizForm" component={QuizStack} />
+        </Tab.Navigator>
+      </ScoreProvider>
     </NavigationContainer>
   );
 }
