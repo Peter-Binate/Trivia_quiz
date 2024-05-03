@@ -4,11 +4,13 @@ const ScoreContext = createContext();
 
 export const useScore = () => useContext(ScoreContext);
 
-export const ScoreProvider = ({ children }) => {
+export const ScoreAndSettingsProvider = ({ children }) => {
     const [score, setScore] = useState({
         totalQuestions: 0,
         correctAnswers: 0
     });
+
+    const [settings, setSettings] = useState({ difficulty: '', category: ''})
 
     const incrementCorrectAnswers = () => {
         setScore(prevScore => ({...prevScore, correctAnswers: prevScore.correctAnswers + 1 }))
@@ -22,7 +24,7 @@ export const ScoreProvider = ({ children }) => {
         setScore({ correctAnswers: 0, totalQuestions: 0 })
     }
     return (
-        <ScoreContext.Provider value={{  score, incrementCorrectAnswers, incrementTotalQuestions, resetScore }}>
+        <ScoreContext.Provider value={{  score, incrementCorrectAnswers, incrementTotalQuestions, resetScore}}>
             {children}
         </ScoreContext.Provider>
     );

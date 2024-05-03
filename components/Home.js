@@ -10,7 +10,7 @@ export default function Home() {
     const navigation = useNavigation();  // Utilisation du hook useNavigation
 
     // On récupère le score
-    const { score } = useScore()
+    const { score, resetScore } = useScore()
 
     return (
          <View>
@@ -22,6 +22,14 @@ export default function Home() {
                 onPress={() => navigation.navigate('QuizForm')}
             >
                 <Text>Start quiz</Text>
+            </TouchableOpacity>
+
+            {/* Ajout du bouton pour réinitialiser le score */}
+            <TouchableOpacity
+                onPress={() => resetScore()}
+                style={style.resetButton}
+            >
+                <Text>Reset Score</Text>
             </TouchableOpacity>
         </View>
     )

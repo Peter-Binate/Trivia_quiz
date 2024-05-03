@@ -84,9 +84,11 @@ export default function Quiz({ route }) {
     function checkAnswer() {
         const isCorrect = selectedAnswer === question.correct_answer;
         alert(isCorrect ? 'Correct!' : `Incorrect! You chose: ${selectedAnswer}. The correct answer was: ${question.correct_answer}`);
-        
-        // On incrémente le score si la réponse est correcte
-        incrementCorrectAnswers();
+        if (isCorrect) {
+            // On incrémente le score si la réponse est correcte
+            incrementCorrectAnswers();
+        }
+
         // Incrémente le nombre total de questions
         incrementTotalQuestions(); 
 

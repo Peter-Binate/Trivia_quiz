@@ -11,5 +11,11 @@ export default StyleSheet.create({
       title: {
         fontSize: 25,
         fontWeight: 'bold',
-      } 
+      },
+      resetButton: {
+        backgroundColor: '#f44336', // Couleur rouge
+        padding: 10,
+        marginTop: 20,
+        borderRadius: 5,
+    } 
 })

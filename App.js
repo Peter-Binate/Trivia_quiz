@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 
 // on importe les composant pour la Navigation
 import { NavigationContainer } from '@react-navigation/native'
@@ -13,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Home from './components/Home.js'
 import QuizForm from './components/QuizForm.js'
 import Quiz from './components/Quiz.js'
-import { ScoreProvider } from './context/ScoreContext.js'
+import { ScoreAndSettingsProvider } from './context/ScoreContext.js'
 import style from './style.js'
 
 const Tab = createBottomTabNavigator()
@@ -39,7 +38,7 @@ function QuizStack () {
 export default function App() {
   return (
     <NavigationContainer>
-      <ScoreProvider>
+      <ScoreAndSettingsProvider>
         <Tab.Navigator
           // On choisit la color et le type d'icon lorsque l'icon est active
           screenOptions={({ route }) => ({
@@ -60,7 +59,7 @@ export default function App() {
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="QuizForm" component={QuizStack} />
         </Tab.Navigator>
-      </ScoreProvider>
+      </ScoreAndSettingsProvider>
     </NavigationContainer>
   );
 }

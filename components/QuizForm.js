@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Picker } from '@react-native-picker/picker';
 import {View, Text, Button, StyleSheet, ActivityIndicator} from 'react-native'
-import Quiz from '../components/Quiz.js'
 
-import style from '../style.js'
 
 export default function QuizForm({ navigation }) {
     const [difficulty, setDifficulty] = useState('')
