@@ -13,22 +13,23 @@ import Home from './components/Home.js'
 import QuizForm from './components/QuizForm.js'
 import Quiz from './components/Quiz.js'
 import { ScoreAndSettingsProvider } from './context/ScoreContext.js'
-import style from './style.js'
+import styles from './styles.js'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
+const CustomHeader =() => {
+  return null
+}
 
 function HomeScreen({ navigation }) {
   return (
-    <View style={style.container}>
-      <Home navigation={navigation} />
-    </View>
+    <Home navigation={navigation} />
   )
 }
 
 function QuizStack () {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ header: CustomHeader }}>
       <Stack.Screen name="QuizFormStack" component={QuizForm} />
       <Stack.Screen name="Quiz" component={Quiz} />
 
@@ -48,12 +49,24 @@ export default function App() {
               if(route.name === 'Home')
                 iconName = 'home'
               else if(route.name === 'QuizForm')
-                iconName = 'settings'
+                iconName = 'play-sharp'
 
                 return <Ionicons name={iconName} size={24} color={color} />
             },
-            tabBarActiveTintColor: '#ba0d7b',
-            tabBarInactiveTintColor: '#333333'
+            tabBarActiveTintColor: '#AA8DFF',
+            tabBarInactiveTintColor: '#fff',
+            tabBarStyle: { 
+              backgroundColor: '#FF9051', 
+              borderTopColor: 'transparent', 
+              height: 60, 
+              paddingBottom: 5, 
+              shadowColor: '#000', 
+              shadowOffset: { width: 0, height: 1 }, 
+              shadowOpacity: 0.2, 
+              shadowRadius: 3,
+              elevation: 5 
+            },
+            headerShown: false, 
           })}
         >
           <Tab.Screen name="Home" component={HomeScreen} />

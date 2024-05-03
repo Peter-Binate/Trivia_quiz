@@ -6,20 +6,23 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "build:tailwind": "tailwind-rn"
+    "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/poppins": "^0.2.3",
     "@expo/vector-icons": "^14.0.1",
     "@react-native-picker/picker": "^2.7.5",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~50.0.17",
+    "expo-app-loading": "^2.1.1",
+    "expo-font": "^11.10.3",
+    "expo-linear-gradient": "^12.7.2",
     "expo-status-bar": "~1.11.1",
+    "nativewind": "^2.0.11",
     "react": "18.2.0",
-    "react-native": "0.73.6",
-    "tailwind-rn": "^4.2.0"
+    "react-native": "0.73.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

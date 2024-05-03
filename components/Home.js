@@ -1,10 +1,12 @@
 import React from 'react'
-import {View, Text, TouchableOpacity} from 'react-native'
+import {View, Text, TouchableOpacity, Image} from 'react-native'
 import { useNavigation } from '@react-navigation/native';  // Importation nécessaire pour la navigation
 // On importe le score
 import { useScore } from '../context/ScoreContext.js'
+import trivia_logo from "../assets/images/trivia_logo.png";
+import styles from '../styles.js'
+import Background  from "./Background.js"
 
-import style from '../style.js'
 
 export default function Home() {
     const navigation = useNavigation();  // Utilisation du hook useNavigation
@@ -13,25 +15,37 @@ export default function Home() {
     const { score, resetScore } = useScore()
 
     return (
-         <View>
-            <Text style={style.title}>Trivia quiz</Text>
-            <Text style={style.score}>
-                Score: {score.correctAnswers} bonnes réponses / {score.totalQuestions} questions
+         <Background>
+            {/* <Text style={styles.title}>Trivia quiz</Text> */}
+            <View style={styles.logoContainer}>
+                <Image
+                    source={trivia_logo}
+                    style={styles.logo}
+                />
+            </View>
+            
+
+            <Text style={styles.score}>
+                Score:
+            </Text>
+            <Text style={styles.score}>
+                {score.correctAnswers} bonnes réponses / {score.totalQuestions} questions
             </Text>
             <TouchableOpacity
                 onPress={() => navigation.navigate('QuizForm')}
+                style={{...styles.Button, backgroundColor: '#FF9051'}}
             >
-                <Text>Start quiz</Text>
+                <Text style={styles.buttonText}>Start</Text>
             </TouchableOpacity>
 
             {/* Ajout du bouton pour réinitialiser le score */}
             <TouchableOpacity
                 onPress={() => resetScore()}
-                style={style.resetButton}
+                style={{...styles.Button, backgroundColor: '#AA8DFF'}}
             >
-                <Text>Reset Score</Text>
+                <Text style={styles.buttonText}>Reset Score</Text>
             </TouchableOpacity>
-        </View>
+        </Background>
     )
 }
 
