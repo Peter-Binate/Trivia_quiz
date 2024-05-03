@@ -26,6 +26,15 @@ function HomeScreen({ navigation }) {
   )
 }
 
+function QuizStack () {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="QuizFormStack" component={QuizForm} />
+      <Stack.Screen name="Quiz" component={Quiz} />
+
+    </Stack.Navigator>
+  )
+}
 export default function App() {
   return (
     <NavigationContainer>
@@ -47,8 +56,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="QuizForm" component={QuizForm} />
-        <Tab.Screen name="Quiz" component={Quiz} />
+        <Tab.Screen name="QuizForm" component={QuizStack} />
       </Tab.Navigator>
       {/* <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />

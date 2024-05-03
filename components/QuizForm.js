@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { Picker } from '@react-native-picker/picker';
-import {View, Text, TouchableOpacity, Button, StyleSheet, ActivityIndicator} from 'react-native'
+import {View, Text, Button, StyleSheet, ActivityIndicator} from 'react-native'
 import Quiz from '../components/Quiz.js'
 
 import style from '../style.js'
 
 export default function QuizForm({ navigation }) {
-    const [difficulty, setDifficulty] = useState('easy')
+    const [difficulty, setDifficulty] = useState('')
     // État pour stocker la catégorie actuellement sélectionnée
     const [category, setCategory] = useState('')
     // État pour stocker la liste des catégories récupérées de l'API
@@ -32,6 +32,19 @@ export default function QuizForm({ navigation }) {
             })
     }, [])
 
+    // On choisit une catégorie et une difficulté aléatoires
+    const chooseRandomcategoryAndDifficulty = () => {
+        if (!difficulty) {
+            const difficulties = ['any', 'easy', 'medium', 'hard']
+            setDifficulty(difficulties[Math.floor(Math.random() * difficulties.length)])
+        }
+
+        if (!category) {
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            setCategory(randomCategory.id.toString());
+        }
+    }
+
     // Afficher un indicateur de chargement pendant que les données sont en cours de récupération
     if (loading) {
         return <View style={styles.container}><ActivityIndicator size="large" /></View>;
@@ -46,6 +59,7 @@ export default function QuizForm({ navigation }) {
                     setDifficulty(itemValue)
                 }
             >
+                <Picker.Item label="Any Difficulty" value="any" />
                 <Picker.Item label="Easy" value="easy" />
                 <Picker.Item label="Medium" value="medium" />
                 <Picker.Item label="Hard" value="hard" />
@@ -54,7 +68,9 @@ export default function QuizForm({ navigation }) {
             <Text style={styles.label}>Select Category:</Text>
             <Picker
                 selectedValue={category}
-                onValueChange={(itemValue) => setCategory(itemValue)}>
+                onValueChange={(itemValue) => setCategory(itemValue)}
+            >
+                <Picker.Item label="Any Category" value="any" />
                 {categories.map((categorie) => (
                 <Picker.Item key={categorie.id} label={categorie.name} value={categorie.id.toString()} />
                 ))}
@@ -62,6 +78,8 @@ export default function QuizForm({ navigation }) {
             
             {/* Bouton pour démarrer le quiz avec les options sélectionnées */}
             <Button title="Start Quiz" onPress={() => {
+                // Sélectionne une catégorie et une difficulté aléatoires par défaut
+                chooseRandomcategoryAndDifficulty();
                 navigation.navigate('Quiz', { difficulty, category });
                 console.log(difficulty, category);
             }} />

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 
-export default function Quiz({ route, navigation }) {
+export default function Quiz({ route }) {
     const { difficulty, category } = route.params;
 
     const [questions, setQuestions] = useState([]);  // Initialisé comme un tableau vide
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+     // State pour suivre le total des questions chargées
+    const [totalQuestionsLoaded, setTotalQuestionsLoaded] = useState(0)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -47,10 +49,11 @@ export default function Quiz({ route, navigation }) {
         return <View style={styles.container}><Text>No questions loaded</Text></View>;
     }
 
-    const question = questions[currentQuestionIndex];
-
+    const question = questions[currentQuestionIndex]
+    const questionNumber =  totalQuestionsLoaded + 1
     return (
         <View style={styles.container}>
+             <Text style={styles.questionNumber}>Question {questionNumber}:</Text>
             <Text style={styles.question}>{question.question}</Text>
             {question.incorrect_answers.concat(question.correct_answer).sort().map((answer, index) => (
                 <TouchableOpacity key={index} style={styles.answerButton} onPress={() => checkAnswer(answer, answer === question.correct_answer)}>
@@ -63,6 +66,9 @@ export default function Quiz({ route, navigation }) {
     function checkAnswer(selectedAnswer, isCorrect) {
         alert(isCorrect ? 'Correct!' : `Incorrect! You chose: ${selectedAnswer}. The correct answer was: ${question.correct_answer}`);
         const nextQuestionIndex = currentQuestionIndex + 1;
+        // Incrementer le nombre de questions chargées
+        setTotalQuestionsLoaded(prev => prev + 1)
+
         if (nextQuestionIndex < questions.length) {
             setCurrentQuestionIndex(nextQuestionIndex);
         } else {
@@ -78,6 +84,11 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    questionNumber: {
+        fontSize: 18,
+        marginBottom: 10,
+        textAlign: 'center'
     },
     question: {
         fontSize: 20,
